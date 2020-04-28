@@ -5,15 +5,22 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class NcAttrTypeDef extends NcEntityWithType{
+public class NcAttrTypeDef {
+    private Integer id;
     private NcObjectType objectType;
+    private Integer type;
 
-    public NcAttrTypeDef(NcObjectType objectType) {
+    public NcAttrTypeDef(Integer id, NcObjectType objectType, Integer type) {
+        this.id = id;
         this.objectType = objectType;
+        this.type = type;
     }
 
-    public NcAttrTypeDef(Integer id, String name, Integer type, NcObjectType objectType) {
-        super(id, name, type);
-        this.objectType = objectType;
+    public NcObjectType getObjectType() {
+        return objectType;
+    }
+
+    public Integer getType() {
+        return type;
     }
 }

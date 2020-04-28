@@ -142,3 +142,7 @@ values
 insert into nc_references
 values
 	(5, 2, 6);		
+
+create table nc_id_keeper(
+	id int unsigned not null);
+insert into nc_id_keeper values(12);

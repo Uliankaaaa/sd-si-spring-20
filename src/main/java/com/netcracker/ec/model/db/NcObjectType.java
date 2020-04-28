@@ -5,14 +5,14 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class NcObjectType extends NcEntityWithDescription {
+public class NcObjectType extends NcEntity {
     private Integer parentId;
 
     public NcObjectType() {
     }
 
-    public NcObjectType(Integer id, String name, String description, Integer parentId) {
-        super(id, name, description);
+    public NcObjectType(Integer id, String name, Integer parentId) {
+        super(id, name);
         this.parentId = parentId;
     }
 }

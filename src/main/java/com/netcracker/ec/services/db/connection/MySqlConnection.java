@@ -1,4 +1,4 @@
-package com.netcracker.ec.services.db;
+package com.netcracker.ec.services.db.connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,7 +7,7 @@ public class MySqlConnection {
     private String url;
 
     public MySqlConnection() {
-        this.url = "jdbc:mysql://localhost:3306/ncProject";
+        this.url = "jdbc:mysql://localhost:3306/ncProject?useUnicode=true&serverTimezone=UTC&useSSL=false";
     }
 
     public Connection getConnection() throws Exception {

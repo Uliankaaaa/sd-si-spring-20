@@ -1,6 +1,6 @@
 package com.netcracker.ec.model.db;
 
-public class NcListValue extends NcEntity{
+public class NcListValue extends NcEntity {
     private NcAttrTypeDef attrTypeDef;
 
     public NcListValue(NcAttrTypeDef attrTypeDef) {

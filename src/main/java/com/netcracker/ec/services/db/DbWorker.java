@@ -1,12 +1,14 @@
 package com.netcracker.ec.services.db;
 
+import com.netcracker.ec.services.db.connection.MySqlConnection;
+import com.netcracker.ec.view.Printer;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@Slf4j
 @Getter
 public class DbWorker {
     private Connection connection;
@@ -17,7 +19,6 @@ public class DbWorker {
             this.connection = new MySqlConnection().getConnection();
         } catch (Exception e) {
             System.err.println("SqlException: \n" + e);
-          //  log.error.println("SQLException:\n" + e);
             throw new RuntimeException(e);
         }
     }
@@ -29,16 +30,31 @@ public class DbWorker {
         return dbWorker;
     }
 
-    public void close() {
+    public ResultSet executeSelect(String request) {
         try {
-            connection.close();
+            PreparedStatement ps = connection.prepareStatement(request);
+            return ps.executeQuery();
         } catch (SQLException e) {
-         //   log.error.println("SQLException:\n" + e);
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void executeInsert(String request) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(request);
+            ps.execute();
+        } catch (SQLException e) {
+            Printer.print(e.getMessage());
             e.printStackTrace();
         }
     }
 
-    public Connection getConnection() {
-        return connection;
+    public void close() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

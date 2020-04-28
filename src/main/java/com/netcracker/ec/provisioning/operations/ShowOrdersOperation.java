@@ -1,30 +1,25 @@
 package com.netcracker.ec.provisioning.operations;
 
-import com.netcracker.ec.model.db.NcAttribute;
 import com.netcracker.ec.model.db.NcObjectType;
-import com.netcracker.ec.model.domain.oder.Order;
 import com.netcracker.ec.services.console.Console;
 import com.netcracker.ec.services.db.impl.NcAttrService;
 import com.netcracker.ec.services.db.impl.NcObjectService;
 import com.netcracker.ec.services.db.impl.NcObjectTypeService;
 import com.netcracker.ec.services.db.impl.NcParamsService;
-import com.netcracker.ec.util.IdGenerator;
 import com.netcracker.ec.util.UserInput;
 import com.netcracker.ec.view.Printer;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 
-public class CreateOrderOperation implements Operation {
+public class ShowOrdersOperation implements Operation {
     private final NcObjectTypeService ncObjectTypeService;
     private final NcAttrService ncAttributeService;
     private final NcObjectService ncObjectService;
     private final NcParamsService ncParamsService;
 
-    private Console console = Console.getInstance();
-
-    public CreateOrderOperation() {
+    public ShowOrdersOperation() {
         this.ncObjectTypeService = new NcObjectTypeService();
         this.ncAttributeService = new NcAttrService();
         this.ncObjectService = new NcObjectService();
@@ -33,7 +28,7 @@ public class CreateOrderOperation implements Operation {
 
     @Override
     public void execute() {
-        Printer.print("Please Select Object Type.");
+        Printer.print("\nAll Orders: ");
 
         Map<Integer, NcObjectType> orderObjectTypeMap = ncObjectTypeService.getOrderObjectTypes();
         orderObjectTypeMap.forEach((key, value) -> Printer.print(key + " - " + value.getName()));
@@ -41,37 +36,42 @@ public class CreateOrderOperation implements Operation {
         Integer objectTypeId = UserInput.getOrderTypeId(orderObjectTypeMap.keySet());
         NcObjectType selectedObjectType = orderObjectTypeMap.get(objectTypeId);
 
-        List<NcAttribute> attributeList = ncAttributeService.getAttributesByOrderType(selectedObjectType);
+        ResultSet order = showOrder0();
 
         try {
-            Order order = new Order(selectedObjectType);
-            order.setId(IdGenerator.generateId());
-            order.setName(generateOrderName(selectedObjectType));
-            attributeList.forEach(attr -> order.getParameters()
-                    .put(attr, console.getAttributeValue(attr)));
-
-            if (console.getSaveDialogueAnswer()) {
-                addOrder(order);
-                addOrderParams(order);
-                console.printOrderInfo(order);
+            int count = 1;
+            while (order.next()) {
+                String orderName = order.getString("name");
+                if (substringInString(orderName, generateOrderName(selectedObjectType))){
+                    Printer.print("Order" + count + " Name: " + orderName);
+                    ResultSet resultSet = showOrder(selectedObjectType.getId());
+                    while (resultSet.next()) {
+                        String name = resultSet.getString("name");
+                        int attrTypeDefId = resultSet.getInt("attr_type_def_id");
+                        Printer.print("\t" + name + ": " + attrTypeDefId);
+                    }
+                count++;}
             }
             Console.getNextOperation();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            Printer.print(ex.toString());
         }
     }
 
-    private void addOrder(Order order) {
-        ncObjectService.insertOrder(order);
+    private ResultSet showOrder0() {
+        return ncObjectService.selectObjects();
     }
 
-    private void addOrderParams(Order order) {
-        ncParamsService.insertParams(order.getParameters(), order.getId());
+    private ResultSet showOrder(int d) {
+        return ncObjectService.selectOrder(d);
     }
 
     private String generateOrderName(NcObjectType objectType) {
-        return String.join(" ", UserInput.scan(objectType).next(), UserInput.scan(objectType).next())
-                + " #" + (ncObjectService.getLastId());
+        return String.join(" ", UserInput.scan(objectType).next());
+    }
+
+    private boolean substringInString(String name, String substring) {
+        int index = name.indexOf(substring);
+        return !(index == -1);
     }
 }
