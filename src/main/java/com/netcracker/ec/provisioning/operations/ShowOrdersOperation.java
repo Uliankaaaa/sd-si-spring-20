@@ -36,7 +36,7 @@ public class ShowOrdersOperation implements Operation {
         Integer objectTypeId = UserInput.getOrderTypeId(orderObjectTypeMap.keySet());
         NcObjectType selectedObjectType = orderObjectTypeMap.get(objectTypeId);
 
-        ResultSet order = showOrder0();
+        ResultSet order = selectOrders();
 
         try {
             int count = 1;
@@ -44,7 +44,7 @@ public class ShowOrdersOperation implements Operation {
                 String orderName = order.getString("name");
                 if (substringInString(orderName, generateOrderName(selectedObjectType))){
                     Printer.print("Order" + count + " Name: " + orderName);
-                    ResultSet resultSet = showOrder(selectedObjectType.getId());
+                    ResultSet resultSet = selectSetOrderParams(selectedObjectType.getId());
                     while (resultSet.next()) {
                         String name = resultSet.getString("name");
                         int attrTypeDefId = resultSet.getInt("attr_type_def_id");
@@ -52,18 +52,17 @@ public class ShowOrdersOperation implements Operation {
                     }
                 count++;}
             }
-            Console.getNextOperation();
         } catch (SQLException ex) {
             Printer.print(ex.toString());
         }
     }
 
-    private ResultSet showOrder0() {
-        return ncObjectService.selectObjects();
+    private ResultSet selectOrders() {
+        return ncObjectService.selectOrdersObject();
     }
 
-    private ResultSet showOrder(int d) {
-        return ncObjectService.selectOrder(d);
+    private ResultSet selectSetOrderParams(int id) {
+        return ncObjectService.selectOrder(id);
     }
 
     private String generateOrderName(NcObjectType objectType) {

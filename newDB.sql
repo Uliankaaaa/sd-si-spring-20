@@ -69,15 +69,6 @@ values
     (null, 'Mobile Order Object Type', 3, null),
 	(null, 'Phone number', 1, 'Phone Number Object Type');
 
-insert into nc_objects
-values
-	(null, 'Internet Order #1', 1, null),
-	(null, 'Video Order #1', 2, null),
-	(null, 'Video Order #2', 2, null),
-	(null, 'Internet Order #2', 1, null),
-	(null, 'Mobile Order #1', 3, null),
-	(null, '07454343676', 9, 'Number in the system');
-
 insert into nc_attr_type_defs
 values
 	(null, 0, null, 'For ane Text attribute'),
@@ -123,25 +114,6 @@ values
     (7, 2),
     (8, 2),
     (9, 2);
-
-insert into nc_params
-values
-	(1, 3, 2, null),
-	(1, 4, null, '100 Mbps'),
-	(2, 6, null, "Device Stolen"),
-	(3, 6, null, 'Tariff Change'),
-	(4, 3, 1, null),
-	(4, 4, null, '500 Mbps'),
-	(5, 5, 3, null),
-	(1, 7, null, '5'),
-	(2, 8, null, '3'),
-	(3, 8, null, "4"),
-	(4, 7, null, '3'),
-	(5, 9, null, '3');
-    
-insert into nc_references
-values
-	(5, 2, 6);		
 
 create table nc_id_keeper(
 	id int unsigned not null);

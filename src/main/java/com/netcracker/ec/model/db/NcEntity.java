@@ -1,9 +1,5 @@
 package com.netcracker.ec.model.db;
 
-import lombok.*;
-
-@Getter
-@Setter
 public class NcEntity {
     private Integer id;
     private String name;

@@ -39,11 +39,11 @@ public class UserInput {
         return scanner.nextInt();
     }
 
-    public static Integer getOrderTypeId(Set<Integer> objectTypeSet) {
+    public static Integer getOrderTypeId(Set<Integer> numberSet) {
         Integer id;
         do {
             id = nextOperationId();
-        } while (!objectTypeSet.contains(id));
+        } while (!numberSet.contains(id));
         return id;
     }
 

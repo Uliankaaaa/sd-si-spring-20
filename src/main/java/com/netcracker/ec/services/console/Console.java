@@ -7,9 +7,9 @@ import com.netcracker.ec.provisioning.operations.CreateOrderOperation;
 import com.netcracker.ec.provisioning.operations.ExitOperation;
 import com.netcracker.ec.provisioning.operations.Operation;
 import com.netcracker.ec.provisioning.operations.ShowOrdersOperation;
-import com.netcracker.ec.services.db.impl.NcObjectService;
 import com.netcracker.ec.util.UserInput;
 import com.netcracker.ec.view.Printer;
+import java.util.Arrays;
 
 public class Console {
     private static Console console = null;
@@ -22,14 +22,13 @@ public class Console {
     }
 
     public static Operation getNextOperation() {
-
         Operation operation = null;
-        String operationId = UserInput.inputString("Enter operation: \n" +
-                "1 - Create Order\n" +
-                "2 - Show Orders\n" +
-                "3 - Exit");
+        printAvailableOperations();
+        String operationId = UserInput.inputString("Enter operation: ");
+
         OperationType operationType = OperationType.getOperationById(operationId);
-        try {
+
+        if (operationType != null) {
             switch (operationType) {
                 case CREATE_ORDER:
                     operation = new CreateOrderOperation();
@@ -43,12 +42,16 @@ public class Console {
                 default:
                     break;
             }
-        } catch (Exception ex) {
+        } else {
             Printer.print("Enter right operation");
             getNextOperation();
         }
         return operation;
+    }
 
+    private static void printAvailableOperations() {
+        System.out.println("  Operations:");
+        Arrays.stream(OperationType.values()).forEach(System.out::println);
     }
 
     public String getAttributeValue(NcAttribute attr) {
@@ -58,7 +61,7 @@ public class Console {
 
     public void printOrderInfo(Order order) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Order name: " + order.getName() + "\n");
+        stringBuilder.append("Order name: ").append(order.getName()).append("\n");
         order.getParameters().forEach((key, value) ->
                 stringBuilder.append("  ")
                         .append(key.getName())

@@ -1,10 +1,5 @@
 package com.netcracker.ec.model.db;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Setter
-@Getter
 public class NcAttrTypeDef {
     private Integer id;
     private NcObjectType objectType;

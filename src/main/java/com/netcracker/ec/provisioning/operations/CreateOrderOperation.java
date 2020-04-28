@@ -55,7 +55,6 @@ public class CreateOrderOperation implements Operation {
                 addOrderParams(order);
                 console.printOrderInfo(order);
             }
-            Console.getNextOperation();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -72,6 +71,6 @@ public class CreateOrderOperation implements Operation {
 
     private String generateOrderName(NcObjectType objectType) {
         return String.join(" ", UserInput.scan(objectType).next(), UserInput.scan(objectType).next())
-                + " #" + (ncObjectService.getLastId());
+                + " #" + (ncObjectService.getNextId());
     }
 }
