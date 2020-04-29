@@ -56,7 +56,7 @@ public class Console {
 
     public String getAttributeValue(NcAttribute attr) {
         Printer.print(attr.getName() + ": ");
-        return UserInput.nextOperationCommand();
+        return UserInput.inputString("");
     }
 
     public void printOrderInfo(Order order) {

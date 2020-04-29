@@ -1,38 +1,37 @@
 package com.netcracker.ec.util;
 
 import com.netcracker.ec.model.db.NcObjectType;
+
 import java.util.Scanner;
 import java.util.Set;
 
 public class UserInput {
 
     private static final Scanner scanner = new Scanner(System.in);
+    private static final String YES = "Y";
+ //   private static final String NO = "N";
 
     public static String inputString(String msg) {
         String value;
 
         while (true) {
-            System.out.println(msg);
+            System.out.print(msg);
             if (scanner.hasNextLine()) {
-                value = scanner.nextLine();
+                value = scanner.next();
                 break;
             } else {
-                scanner.nextLine();
+                scanner.next();
             }
         }
         return value;
     }
 
     public static boolean getSaveDialogueAnswer() {
-        return scanner.next().equals("Y");
+        return scanner.next().equalsIgnoreCase(YES);
     }
 
     public static void close() {
         scanner.close();
-    }
-
-    public static String nextOperationCommand() {
-        return scanner.next();
     }
 
     private static Integer nextOperationId() {

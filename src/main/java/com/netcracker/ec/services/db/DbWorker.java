@@ -2,14 +2,11 @@ package com.netcracker.ec.services.db;
 
 import com.netcracker.ec.services.db.connection.MySqlConnection;
 import com.netcracker.ec.view.Printer;
-import lombok.Getter;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@Getter
 public class DbWorker {
     private Connection connection;
     private static DbWorker dbWorker = null;

@@ -22,7 +22,8 @@ public class NcObjectService {
     }
 
     public ResultSet selectOrdersObject() {
-        String sqlQuery = "select * from nc_objects where object_type_id in (1, 2, 3)";
+        String sqlQuery = "select * from nc_objects o, nc_object_types ot\n" +
+                " where o.object_type_id = ot.object_type_id and ot.parent_id = 2";
 
         return dbWorker.executeSelect(sqlQuery);
     }
@@ -38,21 +39,5 @@ public class NcObjectService {
                 "where ao.object_type_id in (2, " + id + ");";
 
         return dbWorker.executeSelect(sqlQuery);
-    }
-
-
-    public Integer getNextId() {
-        Integer id = null;
-        try {
-            String sqlQuery = "select * from nc_id_keeper;";
-            ResultSet resultSet = dbWorker.executeSelect(sqlQuery);
-            resultSet.next();
-            id = resultSet.getInt(1);
-            resultSet.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return id;
     }
 }

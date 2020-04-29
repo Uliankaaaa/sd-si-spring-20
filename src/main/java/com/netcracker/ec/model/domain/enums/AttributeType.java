@@ -1,8 +1,5 @@
 package com.netcracker.ec.model.domain.enums;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public enum AttributeType {
     TEXT(0, "Text"),
     NUMBER(2, "Number"),

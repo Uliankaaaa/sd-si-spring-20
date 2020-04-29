@@ -1,12 +1,9 @@
 package com.netcracker.ec.model.domain.enums;
 
-import lombok.Getter;
-
-@Getter
 public enum OperationType {
     CREATE_ORDER("1", "Create Order"),
     SHOW_ORDERS("2", "Show Orders"),
-    EXIT("3", "Exit");
+    EXIT("0", "Exit");
 
     private String id;
     private String name;

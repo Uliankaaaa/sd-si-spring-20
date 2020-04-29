@@ -1,7 +1,6 @@
 package com.netcracker.ec.util;
 
 import com.netcracker.ec.services.db.DbWorker;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
